@@ -11,36 +11,41 @@ class TrafficLightUseCases(
         private val clockRepository: ClockRepository = ClockRepositoryImpl(),
         private val timeOfDayMapper: TimeOfDayMapper = TimeOfDayMapper()
 ) {
-    fun getWaitingTimeStages(): Map<TrafficStage, WaitingTime> {
+    fun getWaitingTimeStages(): List<Pair<TrafficStage, WaitingTime>> {
         val currentHour = clockRepository.getCurrentHour()
         val timeOfDay = timeOfDayMapper.map(currentHour)
 
         return when (timeOfDay) {
-            TimeOfDay.DayTime -> mapOf(
-                    TrafficStage.CLOSE to WaitingTime(20000L),
-                    TrafficStage.OPEN to WaitingTime(15000L),
-                    TrafficStage.SWITCH to WaitingTime(5000L)
+            TimeOfDay.DayTime -> listOf(
+                    TrafficStage.CLOSE to WaitingTime(MAX),
+                    TrafficStage.OPEN to WaitingTime(MEDIUM),
+                    TrafficStage.SWITCH to WaitingTime(LOWEST)
             )
-            TimeOfDay.RushTime -> mapOf(
-                    TrafficStage.CLOSE to WaitingTime(10000L),
-                    TrafficStage.OPEN to WaitingTime(25000L),
-                    TrafficStage.SWITCH to WaitingTime(5000L)
+            TimeOfDay.RushTime -> listOf(
+                    TrafficStage.CLOSE to WaitingTime(LOW),
+                    TrafficStage.OPEN to WaitingTime(MAX),
+                    TrafficStage.SWITCH to WaitingTime(LOWEST)
             )
-            TimeOfDay.NightTime -> mapOf(
-                    TrafficStage.CLOSE to WaitingTime(5000L),
-                    TrafficStage.OPEN to WaitingTime(30000L),
-                    TrafficStage.SWITCH to WaitingTime(5000L)
+            TimeOfDay.NightTime -> listOf(
+                    TrafficStage.CLOSE to WaitingTime(LOWEST),
+                    TrafficStage.OPEN to WaitingTime(MAX),
+                    TrafficStage.SWITCH to WaitingTime(LOWEST)
             )
-            TimeOfDay.Unknown -> mapOf(
-                    TrafficStage.SWITCH to WaitingTime(500L),
-                    TrafficStage.NONE to WaitingTime(500L)
+            TimeOfDay.Unknown -> listOf(
+                    TrafficStage.SWITCH to WaitingTime(BLINKING),
+                    TrafficStage.NONE to WaitingTime(BLINKING)
             )
         }
     }
 
-    fun getInterval(): Long = INTERVAL_COUNT
+    fun getWaitingTimeInterval(): Long = INTERVAL
 
     companion object {
-        private const val INTERVAL_COUNT = 1000L
+        private const val MAX = 25000L
+        private const val MEDIUM = 20000L
+        private const val LOW = 15000L
+        private const val LOWEST = 5000L
+        private const val BLINKING = 500L
+        private const val INTERVAL = 1000L
     }
 }

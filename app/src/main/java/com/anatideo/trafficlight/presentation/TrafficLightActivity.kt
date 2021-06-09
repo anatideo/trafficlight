@@ -34,9 +34,9 @@ class TrafficLightActivity : AppCompatActivity(), TrafficLightContract.View {
 
     override fun turnOffAllLights() {
         with(binding) {
-            lightOne.setBackground(R.drawable.ic_placeholder_circle)
-            lightTwo.setBackground(R.drawable.ic_placeholder_circle)
             lightThree.setBackground(R.drawable.ic_placeholder_circle)
+            lightTwo.setBackground(R.drawable.ic_placeholder_circle)
+            lightOne.setBackground(R.drawable.ic_placeholder_circle)
         }
     }
 

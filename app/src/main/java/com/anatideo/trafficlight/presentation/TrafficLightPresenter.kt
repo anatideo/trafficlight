@@ -14,27 +14,22 @@ class TrafficLightPresenter(
     override fun initTrafficLight() {
         with(trafficLightUseCases) {
             val waitingTimeStages = getWaitingTimeStages()
-            val interval = getInterval()
+            val interval = getWaitingTimeInterval()
 
-            startTrafficLight(
-                    waitingTimeStages = waitingTimeStages,
-                    interval = interval,
-            )
+            startTrafficLightSequence(waitingTimeStages, interval)
         }
     }
 
-    private fun startTrafficLight(
-            waitingTimeStages: Map<TrafficStage, WaitingTime>,
+    private fun startTrafficLightSequence(
+            waitingTimeStages: List<Pair<TrafficStage, WaitingTime>>,
             interval: Long,
             currentIndex: Int = 0
     ) {
-        val currentKey = waitingTimeStages.entries.toTypedArray()[currentIndex]
-        val trafficStage = currentKey.key
-        val count = currentKey.value.count
+        val current = waitingTimeStages[currentIndex]
 
-        setCurrentTrafficLight(trafficStage)
+        setCurrentTrafficLight(trafficStage = current.first)
 
-        val timer = object: CountDownTimer(count, interval) {
+        val timer = object: CountDownTimer(current.second.count, interval) {
             override fun onTick(millisUntilFinished: Long) {
                 Log.d("onTick", millisUntilFinished.toString())
             }
@@ -42,8 +37,9 @@ class TrafficLightPresenter(
             override fun onFinish() {
                 val nextIndex = currentIndex.inc()
                 if (nextIndex <= waitingTimeStages.size.dec()) {
-                    startTrafficLight(waitingTimeStages, interval, nextIndex)
+                    startTrafficLightSequence(waitingTimeStages, interval, nextIndex)
                 } else {
+                    // refresh it cause iteration is over
                     initTrafficLight()
                 }
             }
