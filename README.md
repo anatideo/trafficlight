@@ -8,6 +8,8 @@ Esse projeto, [como é explicado aqui](https://lucassbonafe.medium.com/falando-d
 Então você não encontrará aqui:
 
 - Cobertura de testes
-- Injeção de dependência
+- Implementação de injeção de dependência
+- Solução arrojada de multithreading
 - Modelo de camada de apresentação que exija adição de dependência
+- Muitas das característica de uma aplicação MAD de alta pontuação
 - Quaisquer outras coisas dispensáveis ao objetivo do projeto
