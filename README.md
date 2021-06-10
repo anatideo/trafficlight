@@ -11,5 +11,5 @@ Então você não encontrará aqui:
 - Implementação de injeção de dependência
 - Solução arrojada de multithreading
 - Modelo de camada de apresentação que exija adição de dependência
-- Muitas das característica de uma aplicação MAD de alta pontuação
+- MAD de alta pontuação
 - Quaisquer outras coisas dispensáveis ao objetivo do projeto
