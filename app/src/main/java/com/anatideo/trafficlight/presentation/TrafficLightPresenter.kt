@@ -30,14 +30,19 @@ class TrafficLightPresenter(
         setCurrentTrafficLight(trafficStage = current.first)
 
         val timer = object: CountDownTimer(current.second.count, interval) {
-            override fun onTick(millisUntilFinished: Long) {
-                Log.d("onTick", millisUntilFinished.toString())
+            override fun onTick(remainingMillis: Long) {
+                Log.d("time goes by :_(", remainingMillis.toString())
             }
 
             override fun onFinish() {
                 val nextIndex = currentIndex.inc()
+
                 if (nextIndex <= waitingTimeStages.size.dec()) {
-                    startTrafficLightSequence(waitingTimeStages, interval, nextIndex)
+                    startTrafficLightSequence(
+                            waitingTimeStages,
+                            interval,
+                            nextIndex
+                    )
                 } else {
                     // refresh it cause iteration is over
                     initTrafficLight()

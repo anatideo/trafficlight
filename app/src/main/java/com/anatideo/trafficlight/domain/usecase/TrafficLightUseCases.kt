@@ -19,21 +19,21 @@ class TrafficLightUseCases(
             TimeOfDay.DayTime -> listOf(
                     TrafficStage.CLOSE to WaitingTime(MAX),
                     TrafficStage.OPEN to WaitingTime(MEDIUM),
-                    TrafficStage.SWITCH to WaitingTime(LOWEST)
+                    TrafficStage.SWITCH to WaitingTime(VERY_LOW)
             )
             TimeOfDay.RushTime -> listOf(
                     TrafficStage.CLOSE to WaitingTime(LOW),
                     TrafficStage.OPEN to WaitingTime(MAX),
-                    TrafficStage.SWITCH to WaitingTime(LOWEST)
+                    TrafficStage.SWITCH to WaitingTime(VERY_LOW)
             )
             TimeOfDay.NightTime -> listOf(
-                    TrafficStage.CLOSE to WaitingTime(LOWEST),
+                    TrafficStage.CLOSE to WaitingTime(VERY_LOW),
                     TrafficStage.OPEN to WaitingTime(MAX),
-                    TrafficStage.SWITCH to WaitingTime(LOWEST)
+                    TrafficStage.SWITCH to WaitingTime(VERY_LOW)
             )
             TimeOfDay.Unknown -> listOf(
-                    TrafficStage.SWITCH to WaitingTime(BLINKING),
-                    TrafficStage.NONE to WaitingTime(BLINKING)
+                    TrafficStage.SWITCH to WaitingTime(LOWEST),
+                    TrafficStage.NONE to WaitingTime(LOWEST)
             )
         }
     }
@@ -44,8 +44,8 @@ class TrafficLightUseCases(
         private const val MAX = 25000L
         private const val MEDIUM = 20000L
         private const val LOW = 15000L
-        private const val LOWEST = 5000L
-        private const val BLINKING = 500L
+        private const val VERY_LOW = 5000L
+        private const val LOWEST = 500L
         private const val INTERVAL = 1000L
     }
 }
